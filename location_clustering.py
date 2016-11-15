@@ -18,7 +18,7 @@ import numpy as np
 from sklearn.cluster import KMeans, MeanShift
 
 # TODO: Replace the string with your user ID
-user_id = ""
+user_id = "be.af.9a.d0.e9.3f.e3.db.8f.94"
 
 '''
     This socket is used to send data back through the data collection server.
@@ -57,6 +57,15 @@ def cluster(latitudes, longitudes, algorithm, *args):
     """
 
     # TODO: Do what the comments / assignment details tell you to do.
+
+    X = np.column_stack((np.array(latitudes), np.array(longitudes)))
+
+    if algorithm == "k_means":
+        kmeans = KMeans(n_clusters=args[0]).fit(X)
+        send_clusters(kmeans.labels_)
+    else:
+        meanShift = MeanShift().fit(X)
+        send_clusters(meanShift.labels_)
 
     return
 
