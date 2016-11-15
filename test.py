@@ -16,12 +16,16 @@ def cluster(latitudes, longitudes, algorithm, *args):
     but it returns the labels rather than sending them. Use for testing
     """
 
+    # Make an N x 2 matrix of latitudes and longitudes
     X = np.column_stack((np.array(latitudes), np.array(longitudes)))
 
+    # Check for algorithm type
     if algorithm == "k_means":
+        # Initialize a scikit-learn kmeans and fit it with the matrix
         kmeans = KMeans(n_clusters=args[0]).fit(X)
         return kmeans.labels_
     elif algorithm == "mean_shift":
+        # Initialize a scikit-learn mean shift and fit it with the matrix
         meanShift = MeanShift().fit(X)
         return meanShift.labels_
     else:

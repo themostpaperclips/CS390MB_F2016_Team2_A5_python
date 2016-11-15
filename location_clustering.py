@@ -56,15 +56,19 @@ def cluster(latitudes, longitudes, algorithm, *args):
 
     """
 
-    # TODO: Do what the comments / assignment details tell you to do.
-
+    # Make an N x 2 matrix of latitudes and longitudes
     X = np.column_stack((np.array(latitudes), np.array(longitudes)))
 
+    # Check for algorithm type
     if algorithm == "k_means":
+        # Initialize a scikit-learn kmeans and fit it with the matrix
         kmeans = KMeans(n_clusters=args[0]).fit(X)
+        # Send labels to the server
         send_clusters(kmeans.labels_)
     elif algorithm == "mean_shift":
+        # Initialize a scikit-learn mean shift and fit it with the matrix
         meanShift = MeanShift().fit(X)
+        # Send labels to the server
         send_clusters(meanShift.labels_)
     else:
         print "Error: Unexpected algorithm. Got: %s" % algorithm
