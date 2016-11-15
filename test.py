@@ -21,9 +21,11 @@ def cluster(latitudes, longitudes, algorithm, *args):
     if algorithm == "k_means":
         kmeans = KMeans(n_clusters=args[0]).fit(X)
         return kmeans.labels_
-    else:
+    elif algorithm == "mean_shift":
         meanShift = MeanShift().fit(X)
         return meanShift.labels_
+    else:
+        return "Error: Unexpected algorithm. Got: %s" % algorithm
 
 
 class TestClustering(unittest.TestCase):
@@ -34,6 +36,9 @@ class TestClustering(unittest.TestCase):
     def test_meanshift(self):
         labels = cluster([0, 100, 1, 101, 2, 3, 99, 103], [0, 100, 1, 101, 2, 3, 99, 103], "mean_shift")
         self.assertTrue(np.array_equal(labels, [2, 0, 2, 0, 1, 1, 0, 3]))
+
+    def test_bad_algorithm(self):
+        self.assertEqual(cluster([0, 100, 1, 101], [0, 100, 1, 101], "bleep", 2), "Error: Unexpected algorithm. Got: bleep")
 
 if __name__ == '__main__':
     unittest.main()

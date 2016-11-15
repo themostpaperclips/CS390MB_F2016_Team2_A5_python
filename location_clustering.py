@@ -63,9 +63,11 @@ def cluster(latitudes, longitudes, algorithm, *args):
     if algorithm == "k_means":
         kmeans = KMeans(n_clusters=args[0]).fit(X)
         send_clusters(kmeans.labels_)
-    else:
+    elif algorithm == "mean_shift":
         meanShift = MeanShift().fit(X)
         send_clusters(meanShift.labels_)
+    else:
+        print "Error: Unexpected algorithm. Got: %s" % algorithm
 
     return
 
